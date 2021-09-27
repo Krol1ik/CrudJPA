@@ -1,14 +1,27 @@
 package dao;
 
+import models.User;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-public class DaoImpl implements Dao{
+import static java.lang.Integer.valueOf;
+
+public class DaoImpl implements Dao {
     @Override
-    public Object findById(int id, Object table) {
-        return null;
+    public void findByIdUser(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa-tutorial");
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+        int key = valueOf(id);
+        User p = entityManager.find(User.class, key);
+        System.out.println(p.getName() + " | " + p.getLastName());
+        entityManager.getTransaction().commit();
     }
+
+
+
 
     @Override
     public void saveObject(Object object) {
@@ -20,20 +33,26 @@ public class DaoImpl implements Dao{
     }
 
     @Override
-    public void deleteObject(Object object, int id) {
+    public void deleteUserById(int id) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa-tutorial");
+        EntityManager entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+        int key = valueOf(id);
+        User p = entityManager.find(User.class, key);
+        entityManager.remove(p);
+        entityManager.getTransaction().commit();
+    }
+
+    @Override
+    public void updateUser(int idUpdate, String newName, String newLastName) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpa-tutorial");
         EntityManager entityManager = emf.createEntityManager();
 
         entityManager.getTransaction().begin();
-        Long key = Long.valueOf(id);
-        Object p = entityManager.find(Object.class, key);
-        entityManager.remove(p);
+        int key = valueOf(idUpdate);
+        User p = entityManager.find(User.class, key);
+        p.setName(newName);
+        p.setLastName(newLastName);
         entityManager.getTransaction().commit();
-
-    }
-
-    @Override
-    public void updateObject(Object object) {
-
     }
 }
