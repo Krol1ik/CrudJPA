@@ -40,6 +40,7 @@ public class Main {
 //        dao.updateUser(3, "Henry", "Smit");
 //        dao.findByIdUser(3);
 
+//                Удаление юзера по ID
         dao.deleteUserById(4);
     }
 }
